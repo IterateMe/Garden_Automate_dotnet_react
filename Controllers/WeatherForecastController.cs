@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace GA_FA.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/WeatherForecast")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -34,6 +34,18 @@ namespace GA_FA.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+    }
+
+    [ApiController]
+    [Route("/valve")]
+    public class ValveController : ControllerBase
+    {
+
+        [HttpGet]
+        public int Get()
+        {
+            return 1 ;
         }
     }
 }

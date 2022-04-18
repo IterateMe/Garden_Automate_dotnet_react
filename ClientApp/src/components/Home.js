@@ -4,7 +4,7 @@ export class Home extends Component {
     static displayName = Home.name;
 
     async turnOn() {
-        const response = await fetch('weatherforecast');
+        const response = await fetch('/valve');
         const data = await response.json();
         alert("Turned ON")
     }
