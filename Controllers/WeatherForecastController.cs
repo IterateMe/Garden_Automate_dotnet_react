@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+
+
 
 namespace GA_FA.Controllers
 {
@@ -41,11 +45,24 @@ namespace GA_FA.Controllers
     [Route("/valve")]
     public class ValveController : ControllerBase
     {
-
-        [HttpGet]
-        public int Get()
+        private readonly IConfiguration _config;
+        private string connectionString;
+        private string targetDevice;
+        private AzureIotComms iotHub;
+        public ValveController(IConfiguration config)
         {
-            return 1 ;
+            _config = config;
+            this.connectionString = _config["cs"];
+            this.targetDevice = _config["dev"];
+            iotHub = new AzureIotComms(this.connectionString, this.targetDevice);
+        }
+        [HttpPost]
+        public String post(Models.ValveModel data)
+        {
+            
+            iotHub.SendCloudToDeviceMessageAsync(data.command);
+
+            return "Turn On";
         }
     }
 }
